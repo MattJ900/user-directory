@@ -1,22 +1,42 @@
-import React,{useEffect,useState} from "react"
+import React, { useEffect, useState } from "react"
 import './App.css';
-import axios from"axios"
+import axios from "axios"
 function App() {
- const [users,setusers]=useState([]) 
- const [name,setname] = useState("")
-  useEffect(()=> {
-axios.get('https://randomuser.me/api/?results=5').then(data => {
-  setusers(data.data.results)
-})
-  },[])
-
+  const [users, setusers] = useState([])
+  const [name, setname] = useState("")
+  const [sortDir, setsortDir] = useState(true)
+  useEffect(() => {
+    axios.get('https://randomuser.me/api/?results=10').then(data => {
+      setusers(data.data.results)
+    })
+  }, [])
+  const setnamefunc = (e) => {
+    setname(e.target.value)
+  }
+  const sortAgeFunc = () => {
+    let newUsers;
+    if (sortDir) {
+      newUsers = [...users].sort((a, b) => a.dob.age - b.dob.age)
+    } else {
+      newUsers = [...users].sort((b, a) => a.dob.age - b.dob.age)
+    }
+    setsortDir(!sortDir)
+    console.log(newUsers);
+    setusers(newUsers)
+  }
   return (
     <div className="App">
-    {users.map(user => (
-    <div>{user?.name.first}</div> 
-    ) )}  
-    <button onClick={}>
-      sortbyAge
+      <input value={name} onChange={setnamefunc}></input>
+      {users.filter(user => user.name.first.includes(name)).map(user => (
+        <div>
+          <tr>
+            <td>{user?.name.first} {user.dob.age}</td>
+            <td>Hello World</td>
+          </tr>
+        </div>
+      ))}
+      <button onClick={sortAgeFunc}>
+        sortbyAge
     </button>
     </div>
   );
