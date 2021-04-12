@@ -30,8 +30,11 @@ function App() {
       {users.filter(user => user.name.first.includes(name)).map(user => (
         <div>
           <tr>
-            <td>{user?.name.first} {user.dob.age}</td>
-            <td>Hello World</td>
+            <td>{user.name.first}</td>
+            <td>{user.name.last}</td>
+            <td>{user.dob.age}</td>
+            <td>{user.gender}</td>
+            <td>{user.email}</td>
           </tr>
         </div>
       ))}
